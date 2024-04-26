@@ -1,7 +1,7 @@
 package entity;
 
 import map.Astar;
-import map.Coord;
+import map.Node;
 import map.World;
 import java.util.ArrayList;
 import static map.World.States;
@@ -17,12 +17,12 @@ public class FollowAction extends Action
 
 	public boolean update(Entity entity, World world)
 	{
-		ArrayList<Coord> path = Astar.findPath(entity, target, world);
+		ArrayList<Node> path = Astar.findPath(entity, target, world);
 		boolean caught = false;
 
 		if (path.size() > 1)
 		{
-			Coord next = path.get(1);
+			Node next = path.get(1);
 			entity.x = next.x;
 			entity.y = next.y;
 
