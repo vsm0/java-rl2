@@ -5,11 +5,17 @@ import map.Tile;
 
 public class SearchAction extends Action
 {
+	private Entity target;
+
+	public SearchAction(Entity target)
+	{
+		this.target = target;
+	}
+
 	public boolean update(Entity entity, World world)
 	{
 		int x = entity.x;
 		int y = entity.y;
-		Entity target = (Entity) world.user;
 		int tx = target.x;
 		int ty = target.y;
 

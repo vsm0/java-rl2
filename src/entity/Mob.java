@@ -5,16 +5,23 @@ import map.World;
 
 public class Mob extends Entity
 {
-	public Mob(Coord c)
+	private Entity target;
+
+	public Mob(Coord c, Entity target)
 	{
 		super(c, 1);
+
+		this.target = target;
 	}
 
 	public boolean update(World world)
 	{
-		// push search
-		// push follow
-		ap = 0;
+		if (isEmpty())
+		{
+			push(new SearchAction(target));
+			push(new FollowAction(target));
+		}
+
 		return super.update(world);
 	}
 }

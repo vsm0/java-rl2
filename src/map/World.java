@@ -11,7 +11,6 @@ public class World
 
 	public States state;
 	public int keys, keysFound, keysMax, width, height;
-	public Object user;
 	private Tile[][] map;
 
 	public World(int[][] room)

@@ -47,7 +47,6 @@ public class PlayState extends State
 		Coord start = userSpawns.remove(rng.nextInt(userSpawns.size()));
 		world.set(start.x, start.y, Tile.USER);
 		user = new User(start);
-		world.user = user;
 		entities.add(user);
 
 		int keysPending = world.keysMax;
@@ -71,7 +70,7 @@ public class PlayState extends State
 		{
 			Coord c = mobSpawns.remove(rng.nextInt(mobSpawns.size()));
 			world.set(c.x, c.y, Tile.MOB);
-			Mob mob = new Mob(c);
+			Mob mob = new Mob(c, user);
 			entities.add(mob);
 		}
 	}
