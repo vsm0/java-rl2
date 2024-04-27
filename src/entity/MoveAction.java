@@ -49,6 +49,10 @@ public class MoveAction extends Action
 			case MOB:
 				world.state = States.LOSE;
 				break;
+			case USER:
+				move(entity, x, y, world);
+				world.state = States.LOSE;
+				break;
 		}
 
 		return true;

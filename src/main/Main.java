@@ -16,7 +16,6 @@ public class Main
 		while (!stack.isEmpty())
 		{
 			cls();
-			System.out.println();
 			stack.render();
 			System.out.print("> ");
 			stack.update(scanner.nextLine());

@@ -18,22 +18,22 @@ public class FollowAction extends Action
 	public boolean update(Entity entity, World world)
 	{
 		ArrayList<Node> path = Astar.findPath(entity, target, world);
-		boolean caught = false;
+		for (Node n : path)
+			System.out.printf("(%d; %d)\n", n.x, n.y);
 
-		if (path.size() > 1)
+		boolean canMove = path.size() > 1;
+
+		if (canMove)
 		{
-			Node next = path.get(1);
-			entity.x = next.x;
-			entity.y = next.y;
+			Node next = path.remove(1);
+			entity.enqueue(new MobMoveAction(entity, next, target));
+		}
+		else
 			entity.ap--;
 
-			if (entity.x != target.x || entity.y == target.y)
-			{
-				world.state = States.LOSE;
-				caught = true;
-			}
-		}
-
-		return caught;
+		// if found a path: stop follow, and move
+		// else, keep following
+		// altho, this case is less that likely
+		return canMove;
 	}
 }

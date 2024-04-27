@@ -45,7 +45,7 @@ public class Astar
 
 				Tile t = world.get(x, y);
 				// x, y assumed within bounds
-				if (t != Tile.FLOOR || t != Tile.USER)
+				if (t != Tile.FLOOR && t != Tile.USER)
 					continue;
 
 				Node n = new Node(x, y);
