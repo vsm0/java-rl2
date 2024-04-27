@@ -23,6 +23,14 @@ public class Astar
 		first.h = heuristic(first, end);
 		first.f = first.g + first.h;
 
+		if (first.h == 1) // had to force it cuz my bren cant bren rn
+		{
+			ArrayList<Node> path = new ArrayList<>();
+			path.add(first);
+			path.add(new Node(end.x, end.y));
+			return path;
+		}
+
 		PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingInt(n -> n.f));
 		open.add(first);
 
@@ -35,7 +43,7 @@ public class Astar
 
 			if (focus.x == end.x && focus.y == end.y)
 				return buildPath(focus);
-			
+
 			closed.add(focus);
 
 			for (Coord c : DIRS)
