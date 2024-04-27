@@ -18,8 +18,8 @@ public class Mob extends Entity
 	{
 		if (isEmpty())
 		{
-			push(new SearchAction(target));
-			push(new FollowAction(target));
+			enqueue(new SearchAction(target));
+			enqueue(new FollowAction(target));
 		}
 
 		return super.update(world);

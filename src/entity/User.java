@@ -11,16 +11,16 @@ public class User extends Entity
 
 	public void move(int dx, int dy)
 	{
-		push(new MoveAction(dx, dy));
+		enqueue(new MoveAction(dx, dy));
 	}
 
 	public void waitTurn()
 	{
-		push(new WaitAction());
+		enqueue(new WaitAction());
 	}
 
 	public void skipTurn()
 	{
-		push(new SkipAction());
+		enqueue(new SkipAction());
 	}
 }

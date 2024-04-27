@@ -2,9 +2,9 @@ package entity;
 
 import map.Coord;
 import map.World;
-import java.util.Stack;
+import java.util.LinkedList;
 
-public class Entity extends Stack<Action>
+public class Entity extends LinkedList<Action>
 {
 	public int x, y, ap, apMax;
 	
@@ -24,10 +24,16 @@ public class Entity extends Stack<Action>
 
 		while (!isEmpty())
 			if (peek().update(this, world))
-				pop();
+				remove(0);
 			else
 				break;
 
 		return ap > 0;
+	}
+
+	public void enqueue(Action action)
+	{
+		if (ap > 0)
+			addLast(action);
 	}
 }

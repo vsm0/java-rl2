@@ -25,6 +25,7 @@ public class FollowAction extends Action
 			Node next = path.get(1);
 			entity.x = next.x;
 			entity.y = next.y;
+			entity.ap--;
 
 			if (entity.x != target.x || entity.y == target.y)
 			{

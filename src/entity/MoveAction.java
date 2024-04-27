@@ -19,9 +19,7 @@ public class MoveAction extends Action
 		int x = entity.x + dx;
 		int y = entity.y + dy;
 
-		Tile t = world.get(x, y);
-
-		switch (t)
+		switch (world.get(x, y))
 		{
 			case FLOOR:
 				move(entity, x, y, world);

@@ -18,6 +18,7 @@ public class PlayState extends State
 {
 	private static Random rng = new Random();
 	private int level, width, height;
+	private final int LEVEL_MAX;
 	private ArrayList<Entity> entities = new ArrayList<>();
 	private World world;
 	private User user;
@@ -27,6 +28,7 @@ public class PlayState extends State
 		width = 30;
 		height = 20;
 		level = 1;
+		LEVEL_MAX = 8;
 		loadLevel();
 	}
 
@@ -40,6 +42,8 @@ public class PlayState extends State
 		ArrayList<Coord> itemSpawns = SpawnPointGenerator.generate(room, Tile.POTION.index);
 		ArrayList<Coord> mobSpawns = SpawnPointGenerator.generate(room, Tile.MOB.index);
 
+		// room is mutated during spawn generation,
+		// so create world here
 		world = new World(room);
 
 		entities.clear();
@@ -100,24 +104,23 @@ public class PlayState extends State
 
 		if (world.state == States.RUNNING)
 		{
-			boolean updated = false;
+			boolean incompleteTurn = false;
+
 			for (Entity e : entities)
 			{
-				updated = e.update(world);
-				if (updated)
+				incompleteTurn = e.update(world);
+				if (incompleteTurn)
 					break;
 			}
-			if (!updated)
-			{
+
+			if (!incompleteTurn)
 				for (Entity e : entities)
 					e.ap = e.apMax;
-				update("");
-			}
 		}
 
 		if (world.state == States.WIN)
 		{
-			if (level < 8)
+			if (level < LEVEL_MAX)
 			{
 				level++;	
 				loadLevel();
@@ -146,7 +149,7 @@ public class PlayState extends State
 			"%s\nLVL %d/%d | AP %d/%d | KEYS %d/%d\n%s\n",
 			buf,
 			level,
-			8,
+			LEVEL_MAX,
 			user.ap,
 			user.apMax,
 			world.keysFound,

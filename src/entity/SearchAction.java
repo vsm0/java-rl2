@@ -14,6 +14,7 @@ public class SearchAction extends Action
 
 	public boolean update(Entity entity, World world)
 	{
+		// Bresenham line of sight algorithm
 		int x = entity.x;
 		int y = entity.y;
 		int tx = target.x;
@@ -49,6 +50,9 @@ public class SearchAction extends Action
 				y += sy;
 			}
 		}
+
+		if (!found)
+			entity.ap--;
 		
 		return found;
 	}
