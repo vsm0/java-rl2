@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public class Entity extends LinkedList<Action>
 {
 	public int x, y, ap, apMax;
+	public Entity before, after; // refs for circular doubly linked list scheduler
 	
 	public Entity(Coord c, int apMax)
 	{
@@ -19,21 +20,14 @@ public class Entity extends LinkedList<Action>
 
 	public boolean update(World world)
 	{
-		if (ap <= 0)
-			return false;
-
-		while (!isEmpty())
-			if (peek().update(this, world))
-				remove(0);
-			else
-				break;
+		while (ap > 0 && !isEmpty())
+			remove().update(this, world);
 
 		return ap > 0;
 	}
 
 	public void enqueue(Action action)
 	{
-		if (ap > 0)
-			addLast(action);
+		addLast(action);
 	}
 }

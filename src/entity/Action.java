@@ -2,10 +2,7 @@ package entity;
 
 import map.World;
 
-public class Action
+public interface Action
 {
-	public boolean update(Entity entity, World world)
-	{
-		return true; // done
-	}
+	public void update(Entity entity, World world);
 }

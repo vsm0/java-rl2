@@ -2,11 +2,10 @@ package entity;
 
 import map.World;
 
-public class SkipAction extends Action
+public class SkipAction implements Action
 {
-	public boolean update(Entity entity, World world)
+	public void update(Entity entity, World world)
 	{
 		entity.ap = 0;
-		return true;
 	}
 }

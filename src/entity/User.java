@@ -11,7 +11,7 @@ public class User extends Entity
 
 	public void move(int dx, int dy)
 	{
-		enqueue(new MoveAction(dx, dy));
+		enqueue(new MoveAction(x + dx, y + dy));
 	}
 
 	public void waitTurn()

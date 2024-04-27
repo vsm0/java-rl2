@@ -6,7 +6,7 @@ import map.World;
 import java.util.ArrayList;
 import static map.World.States;
 
-public class FollowAction extends Action
+public class FollowAction implements Action
 {
 	private Entity target;
 
@@ -15,25 +15,22 @@ public class FollowAction extends Action
 		this.target = target;
 	}
 
-	public boolean update(Entity entity, World world)
+	public void update(Entity entity, World world)
 	{
 		ArrayList<Node> path = Astar.findPath(entity, target, world);
-		for (Node n : path)
-			System.out.printf("(%d; %d)\n", n.x, n.y);
 
-		boolean canMove = path.size() > 1;
-
-		if (canMove)
+		if (path.size() > 1)
 		{
 			Node next = path.remove(1);
-			entity.enqueue(new MobMoveAction(entity, next, target));
+			entity.enqueue(new MoveAction(next.x, next.y));
+			if (next.x != target.x || next.y != target.y)
+				entity.enqueue(this);
 		}
 		else
+		{
+			// soon implement counter to switch to search mode
+			entity.enqueue(this);
 			entity.ap--;
-
-		// if found a path: stop follow, and move
-		// else, keep following
-		// altho, this case is less that likely
-		return canMove;
+		}
 	}
 }

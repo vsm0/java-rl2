@@ -3,6 +3,7 @@ package state;
 import entity.Action;
 import entity.Entity;
 import entity.Mob;
+import entity.Scheduler;
 import entity.User;
 import map.Coord;
 import map.RoomGenerator;
@@ -19,7 +20,7 @@ public class PlayState extends State
 	private static Random rng = new Random();
 	private int level, width, height;
 	private final int LEVEL_MAX;
-	private ArrayList<Entity> entities = new ArrayList<>();
+	private Scheduler scheduler;
 	private World world;
 	private User user;
 
@@ -46,12 +47,10 @@ public class PlayState extends State
 		// so create world here
 		world = new World(room);
 
-		entities.clear();
-
 		Coord start = userSpawns.remove(rng.nextInt(userSpawns.size()));
 		world.set(start.x, start.y, Tile.USER);
 		user = new User(start);
-		entities.add(user);
+		scheduler = new Scheduler(user);
 
 		int keysPending = world.keysMax;
 		while (keysPending-- > 0)
@@ -75,7 +74,7 @@ public class PlayState extends State
 			Coord c = mobSpawns.remove(rng.nextInt(mobSpawns.size()));
 			world.set(c.x, c.y, Tile.MOB);
 			Mob mob = new Mob(c, user);
-			entities.add(mob);
+			scheduler.add(mob);
 		}
 	}
 
@@ -104,18 +103,7 @@ public class PlayState extends State
 
 		if (world.state == States.RUNNING)
 		{
-			boolean incompleteTurn = false;
-
-			for (Entity e : entities)
-			{
-				incompleteTurn = e.update(world);
-				if (incompleteTurn)
-					break;
-			}
-
-			if (!incompleteTurn)
-				for (Entity e : entities)
-					e.ap = e.apMax;
+			scheduler.update(world);
 		}
 
 		if (world.state == States.WIN)
@@ -163,9 +151,7 @@ public class PlayState extends State
 		for (int y = 0; y < height; y++)
 		{
 			for (int x = 0; x < width; x++)
-			{
 				System.out.print(world.get(x + ox, y + oy).glyph);
-			}
 			System.out.print('\n');
 		}
 	}

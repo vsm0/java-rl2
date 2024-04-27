@@ -3,7 +3,7 @@ package entity;
 import map.World;
 import map.Tile;
 
-public class SearchAction extends Action
+public class SearchAction implements Action
 {
 	private Entity target;
 
@@ -12,7 +12,7 @@ public class SearchAction extends Action
 		this.target = target;
 	}
 
-	public boolean update(Entity entity, World world)
+	public void update(Entity entity, World world)
 	{
 		// Bresenham line of sight algorithm
 		int x = entity.x;
@@ -51,9 +51,12 @@ public class SearchAction extends Action
 			}
 		}
 
-		if (!found)
+		if (found)
+			entity.enqueue(new FollowAction(target));
+		else
+		{
+			entity.enqueue(this);
 			entity.ap--;
-		
-		return found;
+		}
 	}
 }
